@@ -1,8 +1,62 @@
-function createLinkedList() {}
+function createLinkedList() {
+	
+	let head = null
+	let tail = null
+	let size = 0;
 
-function createNode() {
-	const value = null;
-	const nextNode = null;
+	const getHead = () => {return head}
+	const getTail = () => {return tail}
+	const getSize = () => {return size}
+	const append = (value) => {
+		let iter = head;
+		if (iter === null) {
+			head = createNode(value);
+			tail = head
+			size++
+			return
+		}
 
-	return { value, nextNode };
+		tail.nextNode = createNode(value);
+		tail = tail.nextNode;
+		size++
+	}
+
+	const prepend = (value) => {
+		let temp = createNode(value);
+		temp.nextNode = head;
+		head = temp;
+		size++
+	}
+
+	const at = (index) => {
+		let counter = 0
+		if (index + 1 > size) {
+			console.log('Index overflow')
+			return
+		}
+
+		if (index === 0) {
+			return head
+		}
+
+		if (index === size-1) {
+			return tail
+		}
+
+		while(counter < index) {
+			
+		}
+
+	}
+
+
+	return {getSize, getHead, getTail, append, prepend}
 }
+
+function createNode(value=null) {
+
+
+	return { value, nextNode: null };
+}
+
+window.debug = {createLinkedList, createNode};

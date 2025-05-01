@@ -56,12 +56,14 @@ function createLinkedList() {
 		}
 		if (iter.nextNode === null) {
 			head = null;
+			size--;
 			return;
 		}
 		while (iter.nextNode.nextNode != null) {
 			iter = iter.nextNode;
 		}
 		iter.nextNode = null;
+		size--;
 	};
 
 	const contains = (value) => {
@@ -100,6 +102,30 @@ function createLinkedList() {
 		} while (iter !== null)
 		string += `(${iter})`
 		console.log(string)
+	}
+
+	const insertAt = (value, index) => {
+		let iter = head;
+		let counter = 0;
+		if (index < 0 || index >= size) {
+			console.log('Index out of range')
+			return
+		}
+
+		//Edge case 1: insert at 0
+
+
+		//Edge case 2: insert at 0
+
+		do {
+			if(counter === index - 1){
+				const node = createNode(value)
+				node.nextNode = iter.nextNode
+				iter.nextNode = node;
+			}
+			counter++
+			iter = iter.nextNode
+		} while(iter !== null)
 	}
 
 	

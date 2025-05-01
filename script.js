@@ -1,62 +1,74 @@
 function createLinkedList() {
-	
-	let head = null
-	let tail = null
+	let head = null;
+	let tail = null;
 	let size = 0;
 
-	const getHead = () => {return head}
-	const getTail = () => {return tail}
-	const getSize = () => {return size}
+	const getHead = () => {
+		return head;
+	};
+	const getTail = () => {
+		return tail;
+	};
+	const getSize = () => {
+		return size;
+	};
 	const append = (value) => {
 		let iter = head;
 		if (iter === null) {
 			head = createNode(value);
-			tail = head
-			size++
-			return
+			tail = head;
+			size++;
+			return;
 		}
 
 		tail.nextNode = createNode(value);
 		tail = tail.nextNode;
-		size++
-	}
+		size++;
+	};
 
 	const prepend = (value) => {
 		let temp = createNode(value);
 		temp.nextNode = head;
 		head = temp;
-		size++
-	}
+		size++;
+	};
 
 	const at = (index) => {
-		let counter = 0
+		let counter = 0;
+
 		if (index + 1 > size) {
-			console.log('Index overflow')
-			return
+			console.log("Index overflow");
+			return;
 		}
 
-		if (index === 0) {
-			return head
+		let iter = head;
+		for (let i = 0; i < index; i++) {
+			iter = iter.nextNode;
 		}
+		return iter;
+	};
 
-		if (index === size-1) {
-			return tail
+	const pop = () => {
+		let iter = head;
+		if (iter === null) {
+			console.log("Nothing left!");
+			return;
 		}
-
-		while(counter < index) {
-			
+		if (iter.nextNode === null) {
+			head = null;
+			return;
 		}
+		while (iter.nextNode.nextNode != null) {
+			iter = iter.nextNode;
+		}
+		iter.nextNode = null;
+	};
 
-	}
-
-
-	return {getSize, getHead, getTail, append, prepend}
+	return { getSize, getHead, getTail, append, prepend, at, pop };
 }
 
-function createNode(value=null) {
-
-
+function createNode(value = null) {
 	return { value, nextNode: null };
 }
 
-window.debug = {createLinkedList, createNode};
+window.debug = { createLinkedList, createNode };

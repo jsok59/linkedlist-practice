@@ -64,7 +64,47 @@ function createLinkedList() {
 		iter.nextNode = null;
 	};
 
-	return { getSize, getHead, getTail, append, prepend, at, pop };
+	const contains = (value) => {
+		let iter = head;
+		do {
+			if(iter.value === value) {
+				return true
+			}
+			iter = iter.nextNode
+		} while (iter !== null)
+
+		return false
+	}
+
+	const find = (value) => {
+		let iter = head;
+		if (iter === null) return null
+		let counter = 0;
+		do {
+			if (iter.value === value) {
+				return counter
+			}
+			counter++
+			iter = iter.nextNode;
+		} while (iter != null)
+		return null
+	}
+
+	const toString = () => {
+		let iter = head
+		if (iter === null) return null
+		let string = "";
+		do {
+			string += `(${iter.value}) -> `
+			iter = iter.nextNode
+		} while (iter !== null)
+		string += `(${iter})`
+		console.log(string)
+	}
+
+	
+
+	return { getSize, getHead, getTail, append, prepend, at, pop, contains, find, toString };
 }
 
 function createNode(value = null) {

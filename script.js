@@ -34,8 +34,6 @@ function createLinkedList() {
 	};
 
 	const at = (index) => {
-		let counter = 0;
-
 		if (index + 1 > size) {
 			console.log("Index overflow");
 			return;
@@ -56,6 +54,7 @@ function createLinkedList() {
 		}
 		if (iter.nextNode === null) {
 			head = null;
+			tail = null;
 			size--;
 			return;
 		}
@@ -63,78 +62,130 @@ function createLinkedList() {
 			iter = iter.nextNode;
 		}
 		iter.nextNode = null;
+		tail = iter;
 		size--;
 	};
 
 	const contains = (value) => {
 		let iter = head;
 		do {
-			if(iter.value === value) {
-				return true
+			if (iter.value === value) {
+				return true;
 			}
-			iter = iter.nextNode
-		} while (iter !== null)
+			iter = iter.nextNode;
+		} while (iter !== null);
 
-		return false
-	}
+		return false;
+	};
 
 	const find = (value) => {
 		let iter = head;
-		if (iter === null) return null
+		if (iter === null) return null;
 		let counter = 0;
 		do {
 			if (iter.value === value) {
-				return counter
+				return counter;
 			}
-			counter++
+			counter++;
 			iter = iter.nextNode;
-		} while (iter != null)
-		return null
-	}
+		} while (iter != null);
+		return null;
+	};
 
 	const toString = () => {
-		let iter = head
-		if (iter === null) return null
+		let iter = head;
+		if (iter === null) return null;
 		let string = "";
 		do {
-			string += `(${iter.value}) -> `
-			iter = iter.nextNode
-		} while (iter !== null)
-		string += `(${iter})`
-		console.log(string)
-	}
+			string += `(${iter.value}) -> `;
+			iter = iter.nextNode;
+		} while (iter !== null);
+		string += `(${iter})`;
+		console.log(string);
+	};
 
 	const insertAt = (value, index) => {
 		let iter = head;
 		let counter = 0;
-		if (index < 0 || index >= size) {
-			console.log('Index out of range')
-			return
+		if (index < 0 || index > size) {
+			console.log("Index out of range");
+			return;
 		}
 
 		//Edge case 1: insert at 0
+		if (index === 0) {
+			prepend(value);
+			return;
+		}
 
-
-		//Edge case 2: insert at 0
+		//Edge case 2: insert at end
+		if (index === size) {
+			append(value);
+			return;
+		}
 
 		do {
-			if(counter === index - 1){
-				const node = createNode(value)
-				node.nextNode = iter.nextNode
+			if (counter === index - 1) {
+				const node = createNode(value);
+				node.nextNode = iter.nextNode;
 				iter.nextNode = node;
+				size++;
+				return;
 			}
-			counter++
-			iter = iter.nextNode
-		} while(iter !== null)
-	}
+			counter++;
+			iter = iter.nextNode;
+		} while (iter !== null);
+	};
 
-	
+	const removeAt = (index) => {
+		let counter = 0;
+		let iter = head;
+		if (iter === null) return null;
 
-	return { getSize, getHead, getTail, append, prepend, at, pop, contains, find, toString };
+		if (index < 0 || index > size) {
+			console.log("Index out of range");
+			return;
+		}
+
+		//Edge case: remove at 0
+		if (index === 0) {
+			head = head.nextNode;
+			size--;
+			return;
+		}
+
+		//Edge Case: remove at end
+		if (index === size - 1) {
+			pop();
+			return;
+		}
+
+		while (iter.nextNode.nextNode !== null) {
+			if (counter === index - 1) {
+				iter.nextNode = iter.nextNode.nextNode;
+				size--;
+				return;
+			}
+			counter++;
+			iter = iter.nextNode;
+		}
+	};
+
+	return { getSize, getHead, getTail, append, prepend, at, pop, contains, find, toString, insertAt, removeAt };
 }
 
 function createNode(value = null) {
 	return { value, nextNode: null };
 }
 
+const list = createLinkedList();
+
+list.append("dog");
+list.append("cat");
+list.append("parrot");
+list.append("hamster");
+list.append("snake");
+list.append("turtle");
+
+console.log(list.toString());
 window.debug = { createLinkedList, createNode };
